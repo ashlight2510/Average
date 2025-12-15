@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>대한민국 평균 vs 나</title>
+
+    <!-- SEO / OG -->
+    <meta
+      name="description"
+      content="대한민국 평균과 지금의 나를 비교해보세요. 자존심 자극 없이, 현실적으로."
+    />
+    <meta property="og:title" content="Korea Average vs Me" />
+    <meta
+      property="og:description"
+      content="나이·소비·수면·자산, 평균과 비교한 나의 위치"
+    />
+    <meta
+      property="og:image"
+      content="https://placehold.co/1200x630/020617/ffffff?text=Korea+Average+vs+Me"
+    />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon-average.svg" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+
+  <body class="bg-slate-950 text-slate-100 min-h-screen">
+    <main class="max-w-xl mx-auto px-5 py-10">
+      <header class="mb-8">
+        <span class="text-sm text-slate-400">현실 점검</span>
+        <h1 class="text-3xl font-extrabold mt-2">대한민국 평균 vs 나</h1>
+        <p class="text-slate-300 mt-3">
+          평균과 비교하는 이유는<br />
+          자책이 아니라 <b>위치 파악</b>입니다.
+        </p>
+      </header>
+
+      <section class="space-y-5">
+        <label class="block">
+          <span class="text-sm text-slate-400">나이</span>
+          <input
+            id="age"
+            type="number"
+            class="mt-1 w-full rounded-xl bg-slate-900 border border-slate-700 p-3"
+            placeholder="예: 32"
+          />
+        </label>
+
+        <label class="block">
+          <span class="text-sm text-slate-400">월 소비 (만원)</span>
+          <input
+            id="spend"
+            type="number"
+            class="mt-1 w-full rounded-xl bg-slate-900 border border-slate-700 p-3"
+            placeholder="예: 220"
+          />
+        </label>
+
+        <label class="block">
+          <span class="text-sm text-slate-400">평균 수면 시간 (시간)</span>
+          <input
+            id="sleep"
+            type="number"
+            class="mt-1 w-full rounded-xl bg-slate-900 border border-slate-700 p-3"
+            placeholder="예: 6.5"
+          />
+        </label>
+
+        <button
+          onclick="calc()"
+          class="w-full mt-6 bg-white text-slate-950 font-bold py-3 rounded-xl"
+        >
+          비교 결과 보기
+        </button>
+      </section>
+
+      <section
+        id="result"
+        class="hidden mt-8 rounded-2xl bg-slate-900 border border-slate-800 p-5"
+      >
+        <h2 class="text-xl font-bold mb-3">📊 결과</h2>
+        <p id="resultText" class="text-slate-200 leading-relaxed"></p>
+      </section>
+    </main>
+
+    <script>
+      function calc() {
+        const age = Number(document.getElementById("age").value);
+        const spend = Number(document.getElementById("spend").value);
+        const sleep = Number(document.getElementById("sleep").value);
+
+        let msg = "";
+
+        if (spend > 250) {
+          msg +=
+            "소비는 평균보다 높은 편입니다. 지금은 괜찮아 보여도, 누적되면 체감이 옵니다.<br/><br/>";
+        } else {
+          msg +=
+            "소비는 평균보다 안정적입니다. 이건 분명한 장점입니다.<br/><br/>";
+        }
+
+        if (sleep < 6) {
+          msg +=
+            "수면이 부족합니다. 이 상태로 생산성을 기대하긴 어렵습니다.<br/><br/>";
+        } else {
+          msg +=
+            "수면은 평균 범위입니다. 컨디션 관리만 잘하면 유지 가능합니다.<br/><br/>";
+        }
+
+        msg +=
+          "지금 위치는 실패도, 성공도 아닙니다. 다만 방향은 선택해야 합니다.";
+
+        document.getElementById("resultText").innerHTML = msg;
+        document.getElementById("result").classList.remove("hidden");
+      }
+    </script>
+  </body>
+</html>
