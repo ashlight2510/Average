@@ -17,7 +17,7 @@
     />
     <meta
       property="og:image"
-      content="https://placehold.co/1200x630/0b1224/ebf4ff?text=Average+vs+Me+Preview"
+      content="https://dummyimage.com/1200x630/1f2937/f9fafb&text=Average+vs+Me+Preview"
     />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
@@ -117,6 +117,40 @@
         document.getElementById("resultText").innerHTML = msg;
         document.getElementById("result").classList.remove("hidden");
       }
+    </script>
+
+    <script>
+      (function () {
+        "use strict";
+        const targetUrl = "https://funnyfunny.cloud/";
+        function addMoreTestsButton() {
+          if (document.getElementById("more-tests-btn")) return;
+          const moreBtn = document.createElement("button");
+          moreBtn.id = "more-tests-btn";
+          moreBtn.type = "button";
+          moreBtn.dataset.url = targetUrl;
+          moreBtn.textContent = "더 많은 테스트 해보기";
+          moreBtn.className = "more-tests-btn";
+          moreBtn.style.cssText =
+            "margin:12px 20px 0;width:calc(100% - 40px);padding:14px 20px;background:#fff;border:2px solid #e2e8f0;border-radius:10px;font-size:16px;font-weight:700;color:#4a5568;transition:all 0.2s";
+          moreBtn.addEventListener("click", function () {
+            window.open(targetUrl, "_blank", "noopener");
+          });
+          const shareButton = document.querySelector(
+            'button#share-btn, button#shareBtn, button[id*="share"]'
+          );
+          if (shareButton) {
+            shareButton.insertAdjacentElement("afterend", moreBtn);
+          } else if (document.body) {
+            document.body.appendChild(moreBtn);
+          }
+        }
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", addMoreTestsButton);
+        } else {
+          addMoreTestsButton();
+        }
+      })();
     </script>
   </body>
 </html>
