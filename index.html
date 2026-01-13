@@ -64,14 +64,41 @@
       margin: 16px auto;
         text-align: center;
 }
+    .lang-switch {
+      display: inline-flex;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(15, 23, 42, 0.7);
+      padding: 4px;
+      gap: 4px;
+      font-size: 13px;
+    }
+    .lang-switch button {
+      border-radius: 999px;
+      padding: 6px 12px;
+      color: #cbd5f5;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+    }
+    .lang-switch button.active {
+      background: rgba(248, 250, 252, 0.15);
+      color: #f8fafc;
+    }
   </style>
 </head>
 
   <body class="bg-slate-950 text-slate-100 min-h-screen"><main class="max-w-xl mx-auto px-5 py-10">
       <header class="mb-8">
-        <span class="text-sm text-slate-400">현실 점검</span>
-        <h1 class="text-3xl font-extrabold mt-2">대한민국 평균 vs 나</h1>
-        <p class="text-slate-300 mt-3">
+        <div class="flex justify-end mb-4">
+          <div class="lang-switch" role="tablist" aria-label="Language switcher">
+            <button type="button" data-lang="ko" class="active">한국어</button>
+            <button type="button" data-lang="en">English</button>
+          </div>
+        </div>
+        <span class="text-sm text-slate-400" data-i18n="eyebrow">현실 점검</span>
+        <h1 class="text-3xl font-extrabold mt-2" data-i18n="title">대한민국 평균 vs 나</h1>
+        <p class="text-slate-300 mt-3" data-i18n-html="subtitle">
           평균과 비교하는 이유는<br />
           자책이 아니라 <b>위치 파악</b>입니다.
         </p>
@@ -79,29 +106,32 @@
 
       <section class="space-y-5">
         <label class="block">
-          <span class="text-sm text-slate-400">나이</span>
+          <span class="text-sm text-slate-400" data-i18n="ageLabel">나이</span>
           <input
             id="age"
             type="number"
             class="mt-1 w-full rounded-xl bg-slate-900 border border-slate-700 p-3"
+            data-i18n-placeholder="agePlaceholder"
             placeholder="예: 32"
           />
         </label>
         <label class="block">
-          <span class="text-sm text-slate-400">월 소비 (만원)</span>
+          <span class="text-sm text-slate-400" data-i18n="spendLabel">월 소비 (만원)</span>
           <input
             id="spend"
             type="number"
             class="mt-1 w-full rounded-xl bg-slate-900 border border-slate-700 p-3"
+            data-i18n-placeholder="spendPlaceholder"
             placeholder="예: 220"
           />
         </label>
         <label class="block">
-          <span class="text-sm text-slate-400">평균 수면 시간 (시간)</span>
+          <span class="text-sm text-slate-400" data-i18n="sleepLabel">평균 수면 시간 (시간)</span>
           <input
             id="sleep"
             type="number"
             class="mt-1 w-full rounded-xl bg-slate-900 border border-slate-700 p-3"
+            data-i18n-placeholder="sleepPlaceholder"
             placeholder="예: 6.5"
           />
         </label>
@@ -109,6 +139,7 @@
         <button
           onclick="calc()"
           class="w-full mt-6 bg-white text-slate-950 font-bold py-3 rounded-xl"
+          data-i18n="cta"
         >
           비교 결과 보기
         </button>
@@ -118,12 +149,134 @@
         id="result"
         class="hidden mt-8 rounded-2xl bg-slate-900 border border-slate-800 p-5"
       >
-        <h2 class="text-xl font-bold mb-3">📊 결과</h2>
+        <h2 class="text-xl font-bold mb-3" data-i18n="resultTitle">📊 결과</h2>
         <p id="resultText" class="text-slate-200 leading-relaxed"></p>
       </section>
     </main>
 
     <script>
+      const translations = {
+        ko: {
+          metaTitle: "대한민국 평균 vs 나",
+          metaDescription:
+            "대한민국 평균과 지금의 나를 비교해보세요. 자존심 자극 없이, 현실적으로.",
+          metaOgTitle: "Korea Average vs Me",
+          metaOgDescription: "나이·소비·수면·자산, 평균과 비교한 나의 위치",
+          eyebrow: "현실 점검",
+          title: "대한민국 평균 vs 나",
+          subtitle: "평균과 비교하는 이유는<br />자책이 아니라 <b>위치 파악</b>입니다.",
+          ageLabel: "나이",
+          agePlaceholder: "예: 32",
+          spendLabel: "월 소비 (만원)",
+          spendPlaceholder: "예: 220",
+          sleepLabel: "평균 수면 시간 (시간)",
+          sleepPlaceholder: "예: 6.5",
+          cta: "비교 결과 보기",
+          resultTitle: "📊 결과",
+          spendHigh:
+            "소비는 평균보다 높은 편입니다. 지금은 괜찮아 보여도, 누적되면 체감이 옵니다.",
+          spendStable:
+            "소비는 평균보다 안정적입니다. 이건 분명한 장점입니다.",
+          sleepLow:
+            "수면이 부족합니다. 이 상태로 생산성을 기대하긴 어렵습니다.",
+          sleepOk:
+            "수면은 평균 범위입니다. 컨디션 관리만 잘하면 유지 가능합니다.",
+          closing: "지금 위치는 실패도, 성공도 아닙니다. 다만 방향은 선택해야 합니다.",
+          moreTests: "더 많은 테스트 해보기",
+        },
+        en: {
+          metaTitle: "Korea Average vs Me",
+          metaDescription:
+            "Compare your current stats with the Korean average - no guilt, just a clear reality check.",
+          metaOgTitle: "Korea Average vs Me",
+          metaOgDescription: "Age, spending, sleep, and more - see where you stand",
+          eyebrow: "Reality Check",
+          title: "Korea Average vs Me",
+          subtitle:
+            "We compare to the average not to shame you,<br />but to <b>locate your position</b>.",
+          ageLabel: "Age",
+          agePlaceholder: "e.g., 32",
+          spendLabel: "Monthly Spend (10k KRW)",
+          spendPlaceholder: "e.g., 220",
+          sleepLabel: "Average Sleep (hours)",
+          sleepPlaceholder: "e.g., 6.5",
+          cta: "See Results",
+          resultTitle: "📊 Results",
+          spendHigh:
+            "Your spending is above average. It may feel fine now, but it adds up over time.",
+          spendStable:
+            "Your spending looks stable compared to the average. That's a clear advantage.",
+          sleepLow:
+            "You are not sleeping enough. Expecting strong productivity in this state is tough.",
+          sleepOk:
+            "Your sleep is within the average range. Maintain it with good recovery habits.",
+          closing: "This is neither failure nor success. It simply defines your direction.",
+          moreTests: "Try more tests",
+        },
+      };
+
+      let currentLang = "ko";
+
+      function t(key) {
+        const langTable = translations[currentLang] || translations.ko;
+        return langTable[key] ?? translations.ko[key] ?? key;
+      }
+
+      function applyTranslations() {
+        document.title = t("metaTitle");
+        const desc = document.querySelector('meta[name="description"]');
+        if (desc) desc.setAttribute("content", t("metaDescription"));
+        const ogTitle = document.querySelector('meta[property="og:title"]');
+        if (ogTitle) ogTitle.setAttribute("content", t("metaOgTitle"));
+        const ogDesc = document.querySelector('meta[property="og:description"]');
+        if (ogDesc) ogDesc.setAttribute("content", t("metaOgDescription"));
+
+        document.querySelectorAll("[data-i18n]").forEach((el) => {
+          el.textContent = t(el.dataset.i18n);
+        });
+        document.querySelectorAll("[data-i18n-html]").forEach((el) => {
+          el.innerHTML = t(el.dataset.i18nHtml);
+        });
+        document.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
+          el.setAttribute("placeholder", t(el.dataset.i18nPlaceholder));
+        });
+      }
+
+      function setLang(lang, options = {}) {
+        const nextLang = translations[lang] ? lang : "ko";
+        currentLang = nextLang;
+        document.documentElement.lang = nextLang;
+        localStorage.setItem("preferredLang", nextLang);
+        document.querySelectorAll(".lang-switch button").forEach((button) => {
+          button.classList.toggle("active", button.dataset.lang === nextLang);
+        });
+        applyTranslations();
+
+        if (options.updateUrl) {
+          const url = new URL(window.location.href);
+          url.searchParams.set("lang", nextLang);
+          window.history.replaceState({}, "", url);
+        }
+      }
+
+      function detectLang() {
+        const params = new URLSearchParams(window.location.search);
+        const paramLang = params.get("lang");
+        if (translations[paramLang]) return paramLang;
+        const stored = localStorage.getItem("preferredLang");
+        if (translations[stored]) return stored;
+        const browser = navigator.language?.toLowerCase() || "";
+        return browser.startsWith("en") ? "en" : "ko";
+      }
+
+      document.querySelectorAll(".lang-switch button").forEach((button) => {
+        button.addEventListener("click", () => {
+          setLang(button.dataset.lang, { updateUrl: true });
+        });
+      });
+
+      setLang(detectLang(), { updateUrl: false });
+
       function calc() {
         const age = Number(document.getElementById("age").value);
         const spend = Number(document.getElementById("spend").value);
@@ -132,23 +285,18 @@
         let msg = "";
 
         if (spend > 250) {
-          msg +=
-            "소비는 평균보다 높은 편입니다. 지금은 괜찮아 보여도, 누적되면 체감이 옵니다.<br/><br/>";
+          msg += `${t("spendHigh")}<br/><br/>`;
         } else {
-          msg +=
-            "소비는 평균보다 안정적입니다. 이건 분명한 장점입니다.<br/><br/>";
+          msg += `${t("spendStable")}<br/><br/>`;
         }
 
         if (sleep < 6) {
-          msg +=
-            "수면이 부족합니다. 이 상태로 생산성을 기대하긴 어렵습니다.<br/><br/>";
+          msg += `${t("sleepLow")}<br/><br/>`;
         } else {
-          msg +=
-            "수면은 평균 범위입니다. 컨디션 관리만 잘하면 유지 가능합니다.<br/><br/>";
+          msg += `${t("sleepOk")}<br/><br/>`;
         }
 
-        msg +=
-          "지금 위치는 실패도, 성공도 아닙니다. 다만 방향은 선택해야 합니다.";
+        msg += t("closing");
 
         document.getElementById("resultText").innerHTML = msg;
         document.getElementById("result").classList.remove("hidden");
@@ -165,7 +313,7 @@
           moreBtn.id = "more-tests-btn";
           moreBtn.type = "button";
           moreBtn.dataset.url = targetUrl;
-          moreBtn.textContent = "더 많은 테스트 해보기";
+          moreBtn.textContent = t("moreTests");
           moreBtn.className = "more-tests-btn";
           moreBtn.style.cssText =
             "margin:12px 20px 0;width:calc(100% - 40px);padding:14px 20px;background:#fff;border:2px solid #e2e8f0;border-radius:10px;font-size:16px;font-weight:700;color:#4a5568;transition:all 0.2s";
